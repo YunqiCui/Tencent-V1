@@ -1,6 +1,7 @@
 package com.TencentClient.view;
 
 import com.TencentClient.tools.ManageClientChat;
+import com.TencentCommon.Message;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,7 +66,21 @@ public class QQFriendList extends JFrame implements ActionListener,MouseListener
         jp3.add(jb2);
         jp3.add(jb3);
 
-        this.initLabelList(this.jll,jsp1,jp2,jp1,50);
+//        this.initLabelList(this.jll,jsp1,jp2,jp1,50);
+        jll = new JLabel[50];
+
+        for (int i = 0; i < jll.length; i++) {
+            jll[i] = new JLabel(i + 1 + "", new ImageIcon("src/main/resources/image/mm.jpg"), JLabel.LEFT);
+            jll[i].setEnabled(false);
+            if(jll[i].getText().equals(ownerId)){
+                jll[i].setEnabled(true);
+            }
+            jll[i].addMouseListener(this);
+            jp2.add(jll[i]);
+        }
+        jsp1 = new JScrollPane(jp2);
+        jp1.add(jsp1, BorderLayout.CENTER);
+
         jp1.add(jb1,BorderLayout.NORTH);
         jp1.add(jp3,BorderLayout.SOUTH);
     }
@@ -85,8 +100,20 @@ public class QQFriendList extends JFrame implements ActionListener,MouseListener
         jpmsr3.add(jbmsr1);
         jpmsr3.add(jbmsr2);
 
+//        this.initLabelList(this.jll2,jsp2,jpmsr2,jpmsr1,20);
+        jll2 = new JLabel[20];
 
-        this.initLabelList(this.jll2,jsp2,jpmsr2,jpmsr1,20);
+        for (int i = 0; i < jll2.length; i++) {
+            jll2[i] = new JLabel(i + 1 + "", new ImageIcon("src/main/resources/image/mm.jpg"), JLabel.LEFT);
+            jll2[i].setEnabled(false);
+            if(jll2[i].getText().equals(ownerId)){
+                jll2[i].setEnabled(true);
+            }
+            jll2[i].addMouseListener(this);
+            jpmsr2.add(jll2[i]);
+        }
+        jsp2 = new JScrollPane(jpmsr2);
+        jpmsr1.add(jsp2, BorderLayout.CENTER);
 
         jpmsr1.add(jbmsr3,BorderLayout.SOUTH);
         jpmsr1.add(jpmsr3,BorderLayout.NORTH);
@@ -107,9 +134,21 @@ public class QQFriendList extends JFrame implements ActionListener,MouseListener
         jpbl3.add(jbbl2);
         jpbl3.add(jbbl3);
 
-        this.initLabelList(this.jll3,jsp3,jpbl2,jpbl1,5);
+//        this.initLabelList(this.jll3,jsp3,jpbl2,jpbl1,5);
 
-        jpbl1.add(jpbl3,BorderLayout.NORTH);
+        jll3 = new JLabel[5];
+
+        for (int i = 0; i < jll3.length; i++) {
+            jll3[i] = new JLabel(i + 1 + "", new ImageIcon("src/main/resources/image/mm.jpg"), JLabel.LEFT);
+            jll3[i].setEnabled(false);
+            if(jll3[i].getText().equals(ownerId)){
+                jll3[i].setEnabled(true);
+            }
+            jll3[i].addMouseListener(this);
+            jpbl1.add(jll3[i]);
+        }
+        jsp3 = new JScrollPane(jpmsr2);
+        jpbl2.add(jpbl3,BorderLayout.NORTH);
 
     }
 
@@ -118,12 +157,10 @@ public class QQFriendList extends JFrame implements ActionListener,MouseListener
 
         for (int i = 0; i < jll.length; i++) {
             jll[i] = new JLabel(i + 1 + "", new ImageIcon("src/main/resources/image/mm.jpg"), JLabel.LEFT);
+            jll[i].setEnabled(false);
             if(jll[i].getText().equals(ownerId)){
                 jll[i].setEnabled(true);
-            }else{
-                jll[i].setEnabled(false);
             }
-
             jll[i].addMouseListener(this);
             jpanel.add(jll[i]);
         }
@@ -131,6 +168,13 @@ public class QQFriendList extends JFrame implements ActionListener,MouseListener
         jp11.add(jsp, BorderLayout.CENTER);
 
         return jll;
+    }
+
+    public void updateOnlineFreindList(Message message){
+        String onlineFriend [] = message.getContent().split(" ");
+        for (int i = 0; i < onlineFriend.length; i++) {
+            jll[Integer.parseInt(onlineFriend[i])-1].setEnabled(true);
+        }
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -154,10 +198,6 @@ public class QQFriendList extends JFrame implements ActionListener,MouseListener
              String friend = ((JLabel) e.getSource()).getText();
              QQClientChat qqcc = new QQClientChat(this.ownerId,friend);
             ManageClientChat.addQQChat(this.ownerId + " " + friend,qqcc);
-//            QQClientChat qqcc =
-//             Thread t = new Thread(qqcc);
-//             t.start();
-
         }
     }
 

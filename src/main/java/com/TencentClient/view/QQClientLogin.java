@@ -2,6 +2,7 @@ package com.TencentClient.view;
 
 import com.TencentClient.model.ClientAuth;
 import com.TencentClient.tools.ManageClientThread;
+import com.TencentClient.tools.ManageFriendList;
 import com.TencentCommon.Message;
 import com.TencentCommon.MessageType;
 import com.TencentCommon.User;
@@ -120,6 +121,8 @@ public class QQClientLogin extends JFrame implements ActionListener{
             user.setPassword(new String(jpf.getPassword()));
             if(ca.checkUser(user)){
                 try {
+                    QQFriendList qqFriendList = new QQFriendList(user.getUsername());
+                    ManageFriendList.addQQFriendList(user.getUsername(),qqFriendList);
                     //发送一个要求返回在线好友的请求包
                     ObjectOutputStream oos = new ObjectOutputStream
                             (ManageClientThread.getManageClientThread(user.getUsername()).getSt().getOutputStream());
@@ -131,7 +134,6 @@ public class QQClientLogin extends JFrame implements ActionListener{
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
-                new QQFriendList(user.getUsername());
                 this.dispose();
             }else{
                 JOptionPane.showMessageDialog(this,"Sorry, wrong password or username..");

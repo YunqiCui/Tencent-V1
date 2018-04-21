@@ -39,7 +39,10 @@ public class TencentServer {
                     oos.writeObject(message);
                 scct = new ServerConClientThread(st);
                 ManageClientThread.addClientThread(user.getUsername(),scct);
+                //启动与客户端通信线程
                 scct.start();
+                //通知其他在线用户
+                scct.notifyOther(user.getUsername());
                 }else{
                     message.setType("2");
                     oos.writeObject(message);

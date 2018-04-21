@@ -1,8 +1,9 @@
 package com.TencentServer.tools;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
-public class ManageClientThread implements Runnable{
+public class ManageClientThread{
 
     public static HashMap hm = new HashMap<String,ServerConClientThread>();
 
@@ -14,7 +15,12 @@ public class ManageClientThread implements Runnable{
         return (ServerConClientThread) hm.get(ownerId);
     }
 
-    public void run() {
-
+    public static String getAllOnlineUser(){
+        Iterator it = hm.keySet().iterator();
+        String res = "";
+        while(it.hasNext()){
+            res += it.next().toString()+ " ";
+        }
+        return res;
     }
 }

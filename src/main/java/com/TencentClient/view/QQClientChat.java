@@ -3,6 +3,7 @@ package com.TencentClient.view;
 import com.TencentClient.model.ClientConServer;
 import com.TencentClient.tools.ManageClientThread;
 import com.TencentCommon.Message;
+import com.TencentCommon.MessageType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import static java.awt.event.KeyEvent.*;
@@ -77,6 +77,7 @@ public class QQClientChat extends JFrame implements ActionListener,KeyListener{
 
     public void sendMessage(){
         m = new Message();
+        m.setType(MessageType.message_comm);
         m.setSender(this.ownerId);
         m.setReceiver(this.friend);
         m.setContent(jtf.getText());
@@ -95,18 +96,5 @@ public class QQClientChat extends JFrame implements ActionListener,KeyListener{
 
     }
 
-//    public void run() {
-//        while(true){
-//            try {
-//                ObjectInputStream ois = new ObjectInputStream(ClientConServer.st.getInputStream());
-//                Message m = (Message) ois.readObject();
-//                String info = m.getSendTime() + "\r\n" + m.getSender() + " 对 " + m.getReceiver() + " 说: " + m.getContent()+ "\r\n\n";
-//                this.jta.append(info);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//    }
 }
 
